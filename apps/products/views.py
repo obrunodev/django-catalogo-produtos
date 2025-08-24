@@ -1,6 +1,7 @@
 from apps.products.forms import ProductForm
 from apps.products.models import Product
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 
@@ -24,8 +25,14 @@ def product_create(request):
 
 @login_required
 def product_list(request):
-    products = Product.objects.all()
-    context = {'products': products}
+    q = request.GET.get('q', '')
+    products = Product.objects.filter(name__icontains=q)
+    paginator = Paginator(products, 25)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'page_obj': page_obj}
     return render(request, 'products/product_list.html', context)
 
 

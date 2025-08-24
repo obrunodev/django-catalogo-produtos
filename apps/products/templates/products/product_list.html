@@ -8,8 +8,12 @@
 
     <a href="{% url "products:create" %}">Novo produto</a>
 
+    <form method="get">
+        <input type="text" name="q" value="{{ request.GET.q }}">
+    </form>
+
     <ul>
-        {% for product in products %}
+        {% for product in page_obj %}
             <li>
                 {{ product.name }}:
                 {% if product.promotional_value %}
@@ -25,5 +29,7 @@
             <li>Nenhum produto cadastrado.</li>
         {% endfor %}
     </ul>
+
+    {% include "partials/_pagination.html" %}
 
 {% endblock content %}

@@ -22,6 +22,7 @@ def product_create(request):
     return render(request, 'products/product_form.html', context)
 
 
+@login_required
 def product_list(request):
     products = Product.objects.all()
     context = {'products': products}
@@ -29,8 +30,8 @@ def product_list(request):
 
 
 @login_required
-def product_update(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def product_update(request, product_slug):
+    product = get_object_or_404(Product, slug=product_slug)
 
     if request.method == 'GET':
         form = ProductForm(instance=product)

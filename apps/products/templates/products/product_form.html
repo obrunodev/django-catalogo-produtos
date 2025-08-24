@@ -1,10 +1,22 @@
 {% extends "_base.html" %}
 
-{% block title %}Novo produto{% endblock title %}
+{% block title %}
+    {% if form.instance.id %}
+        Editar produto
+    {% else %}
+        Novo produto
+    {% endif %}
+{% endblock title %}
 
 {% block content %}
 
-    <h1>Novo produto</h1>
+    <h1>
+        {% if form.instance.id %}
+            Editar produto
+        {% else %}
+            Novo produto
+        {% endif %}
+    </h1>
 
     <form method="post">
         {% csrf_token %}

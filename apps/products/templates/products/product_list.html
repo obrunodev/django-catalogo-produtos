@@ -4,32 +4,58 @@
 
 {% block content %}
 
-    <h1>Lista de produtos</h1>
+    <div class="container mt-5 mb-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+                <h1 class="display-5 fw-bold">Lista de produtos</h1>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="{% url "products:create" %}" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-plus-lg me-2"></i>Novo produto
+                </a>
+            </div>
+        </div>
 
-    <a href="{% url "products:create" %}">Novo produto</a>
+        <form method="get" class="mb-4">
+            <div class="input-group input-group-lg shadow-sm">
+                <input type="text" name="q" class="form-control" placeholder="Buscar por nome..." value="{{ request.GET.q }}">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
 
-    <form method="get">
-        <input type="text" name="q" value="{{ request.GET.q }}">
-    </form>
+        {% if page_obj %}
+            <div class="row row-cols-1 g-4">
+                {% for product in page_obj %}
+                    <div class="col">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                                <p class="card-text mb-2">
+                                    {% if product.promotional_value %}
+                                        <span class="text-decoration-line-through text-muted me-2">R$ {{ product.value }}</span>
+                                        <span class="fw-bold text-success">R$ {{ product.promotional_value }}</span>
+                                    {% else %}
+                                        <span class="fw-bold">R$ {{ product.value }}</span>
+                                    {% endif %}
+                                </p>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{% url "products:update" product.slug %}" class="btn btn-outline-primary btn-sm">Editar</a>
+                                    <a href="{% url "products:delete" product.id %}" class="btn btn-outline-danger btn-sm">Excluir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center" role="alert">
+                Nenhum produto cadastrado.
+            </div>
+        {% endif %}
 
-    <ul>
-        {% for product in page_obj %}
-            <li>
-                {{ product.name }}:
-                {% if product.promotional_value %}
-                    <s>R$ {{ product.value }}</s>
-                    R$ {{ product.promotional_value }}
-                {% else %}
-                    R$ {{ product.value }} -
-                {% endif %}
-                <a href="{% url "products:update" product.slug %}">Editar</a> -
-                <a href="{% url "products:delete" product.id %}">Excluir</a>
-            </li>
-        {% empty %}
-            <li>Nenhum produto cadastrado.</li>
-        {% endfor %}
-    </ul>
-
-    {% include "partials/_pagination.html" %}
+        {% include "partials/_pagination.html" %}
+    </div>
 
 {% endblock content %}

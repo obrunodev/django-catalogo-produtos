@@ -1,17 +1,35 @@
-<div class="pagination">
-    <span class="step-links">
+<nav aria-label="Paginação de resultados">
+    <ul class="pagination justify-content-center my-4">
         {% if page_obj.has_previous %}
-            <a href="?page=1&q={{ request.GET.q }}">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}">previous</a>
+            <li class="page-item">
+                <a class="page-link" href="?page=1&q={{ request.GET.q }}" aria-label="Primeira">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}" aria-label="Anterior">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </a>
+            </li>
         {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+        </li>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}&q={{ request.GET.q }}">last &raquo;</a>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" aria-label="Próxima">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&q={{ request.GET.q }}" aria-label="Última">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
         {% endif %}
-    </span>
-</div>
+    </ul>
+</nav>

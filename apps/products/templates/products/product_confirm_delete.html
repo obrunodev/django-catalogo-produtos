@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block title %}Excluir produto{% endblock title %}
+
+{% block content %}
+
+    <h1>Confirmar ação</h1>
+
+    <p>Tem certeza que deseja excluir o produto {{ product.name }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmar</button>
+    </form>
+
+{% endblock content %}

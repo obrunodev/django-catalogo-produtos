@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+
+{% block title %}Lista de produtos{% endblock title %}
+
+{% block content %}
+
+    <h1>Lista de produtos</h1>
+
+    <a href="{% url "products:create" %}">Novo produto</a>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }}:
+                {% if product.promotional_value %}
+                    <s>R$ {{ product.value }}</s>
+                    R$ {{ product.promotional_value }}
+                {% else %}
+                    R$ {{ product.value }} -
+                {% endif %}
+                <a href="{% url "products:update" product.id %}">Editar</a> -
+                <a href="{% url "products:delete" product.id %}">Excluir</a>
+            </li>
+        {% empty %}
+            <li>Nenhum produto cadastrado.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

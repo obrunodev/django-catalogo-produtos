@@ -73,5 +73,7 @@ def product_marketplace(request):
     return render(request, 'products/marketplace.html', context)
 
 
-def product_detail(request):
-    ...
+def product_detail(request, product_slug):
+    product = get_object_or_404(Product, slug=product_slug)
+    context = {'product': product}
+    return render(request, 'products/product_detail.html', context)

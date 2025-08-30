@@ -1,0 +1,48 @@
+{% extends "_marketplace.html" %}
+
+{% block title %}{{ product.name }}{% endblock title %}
+
+{% block content %}
+    <div class="container py-5">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'products:marketplace' %}">Marketplace</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <div class="col-12 col-md-6">
+                <div class="ratio ratio-1x1 bg-light rounded-4 d-flex align-items-center justify-content-center shadow-sm">
+                    <i class="bi bi-box-seam fs-1 text-primary"></i>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 d-flex flex-column">
+                <h1 class="fw-bold mb-3">{{ product.name }}</h1>
+
+                <div class="mb-3">
+                    {% if product.promotional_value %}
+                        <span class="fw-bold text-primary fs-3">R$ {{ product.promotional_value }}</span><br>
+                        <small class="text-muted text-decoration-line-through">R$ {{ product.value }}</small>
+                    {% else %}
+                        <span class="fw-bold text-dark fs-3">R$ {{ product.value }}</span>
+                    {% endif %}
+                </div>
+
+                <p class="text-muted mb-4">{{ product.description|default:"Nenhuma descrição disponível." }}</p>
+
+                <div class="mt-auto">
+                    {% with phone="5511988887777" %}
+                        <a 
+                            href="https://wa.me/{{ phone }}?text=Olá! Tenho interesse no produto *{{ product.name }}*. Veja aqui: {{ request.build_absolute_uri }}" 
+                            target="_blank"
+                            class="btn btn-success btn-lg shadow-sm">
+                            <i class="bi bi-whatsapp me-2"></i> Comprar pelo WhatsApp
+                        </a>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -67,7 +67,10 @@ def product_delete(request, product_id):
 
 
 def product_marketplace(request):
-    ...
+    q = request.GET.get('q', '')
+    products = Product.objects.filter(name__icontains=q)
+    context = {'products': products}
+    return render(request, 'products/marketplace.html', context)
 
 
 def product_detail(request):
